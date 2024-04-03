@@ -1,6 +1,11 @@
 {
     "cSpell.ignoreWords": [
-        "JTAG"
+        "BSCANE",
+        "JTAG",
+        "Openocd",
+        "dtmcs",
+        "idcode",
+        "riscv"
     ],
     "editor.formatOnSave": true
 }

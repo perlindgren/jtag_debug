@@ -2,7 +2,7 @@
 
 ## Openocd
 
-For use with the BSCANE2 JTAG bridge, openocd can remap the the registers:
+For use with the BSCANE2 JTAG bridge, openocd can remap the registers:
 
 ```shell
 riscv set_ir idcode 0x09
