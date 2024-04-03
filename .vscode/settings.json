@@ -1,5 +1,6 @@
 {
     "cSpell.ignoreWords": [
         "JTAG"
-    ]
+    ],
+    "editor.formatOnSave": true
 }
