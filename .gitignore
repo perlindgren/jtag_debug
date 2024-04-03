@@ -1,2 +1,6 @@
 /jtag_debug.*
 /jtag_debug_top/jtag_debug.gen
+/jtag_debug_def*
+/jtag_debug_dump*
+
+!/jtag_debug.tcl
