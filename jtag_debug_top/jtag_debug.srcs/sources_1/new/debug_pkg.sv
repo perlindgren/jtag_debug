@@ -39,10 +39,42 @@ package debug_pkg;
   } dtmcs_t;
 
   typedef enum logic [1:0] {
-    DMINoError = 2'h0,
-    DMIReservedError = 2'h1,
-    DMIOPFailed = 2'h2,
-    DMIBusy = 2'h3
+    DmiNoError = 2'h0,
+    DmiReservedError = 2'h1,
+    DmiOpFailed = 2'h2,
+    DmiBusy = 2'h3
   } dmi_error_e;
+
+  typedef struct packed {
+    logic [6:0]  address;
+    logic [31:0] data;
+    logic [1:0]  op;
+  } dmi_t;
+
+  typedef enum logic [2:0] {
+    Idle,
+    Read,
+    WaitReadValid,
+    Write,
+    WaitWriteValid
+  } state_e;
+
+  // DTM
+  typedef enum logic [1:0] {
+    DtmNop   = 2'h0,
+    DtmRead  = 2'h1,
+    DtmWrite = 2'h2
+  } dtm_op_t;
+
+  typedef struct packed {
+    logic [6:0]  address;
+    dtm_op_t     op;
+    logic [31:0] data;
+  } dmi_req_t;
+
+  typedef struct packed {
+    logic [31:0] data;
+    logic [1:0]  response;
+  } dmi_resp_t;
 
 endpackage
