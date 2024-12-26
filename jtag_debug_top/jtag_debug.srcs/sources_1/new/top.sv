@@ -24,7 +24,22 @@ module top (
   logic [31:0] r_count;
   logic locked;
 
+  clk_wiz_0 clk_gen (
+      // Clock in ports
+      .clk_in1(sysclk),
+      // Clock out ports
+      .clk_out1(clk),
+      // Status and control signals
+      .reset(sw[0]),
+      .locked
+  );
 
+  // clock divider
+  always @(posedge clk) begin
+    r_count <= r_count + 1;
+  end
+
+(*
 
   localparam DTM_DATAWIDTH = 32;
   localparam DMI_DATAWIDTH = 40;
@@ -51,20 +66,7 @@ module top (
 
 
 
-  clk_wiz_0 clk_gen (
-      // Clock in ports
-      .clk_in1(sysclk),
-      // Clock out ports
-      .clk_out1(clk),
-      // Status and control signals
-      .reset(sw[0]),
-      .locked
-  );
-
-  // clock divider
-  always @(posedge clk) begin
-    r_count <= r_count + 1;
-  end
+ 
 
 
 
@@ -235,5 +237,7 @@ module top (
     end
 
   end
+
+  *)
 
 endmodule

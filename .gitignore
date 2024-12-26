@@ -4,3 +4,4 @@
 /jtag_debug_dump*
 
 !/jtag_debug.tcl
+/jtag_debug
