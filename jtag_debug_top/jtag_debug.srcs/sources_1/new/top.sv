@@ -86,31 +86,58 @@ module top (
 
   // End of BSCANE2_inst instantiation
 
-  logic [32:0] bs_shift;
-  logic [31:0] bs_state = 'h12345678;  // initial value?
-
+  logic [7:0] bs_shift;
+  logic [2:0] bs_count; // wrapping 3 bit counter
+  logic [7:0] bs_tmp;
+  
+  MemType       bs_mem = { 8'hde, 8'had, 8'hbe, 8'hef, 8'h8b, 8'had, 8'hf0, 8'h0f };
+  MemAddr       bs_addr = 0;
+  MemAddr       bs_next;
+  
   assign TDO = bs_shift[0];
 
   always @(posedge DRCK) begin
     if (CAPTURE & ~SHIFT) begin
-      bs_shift[31:0] <= bs_state[31:0];
+      bs_count <= 0;
+      bs_shift <= bs_mem[bs_addr];
     end
 
     if (SHIFT) begin
-      bs_shift[32:0] <= {TDI, bs_shift[32:1]};  // shift data out
+      bs_tmp = {TDI, bs_shift[7:1]};
+      bs_shift <= bs_tmp;  // shift data out
+      bs_count <= bs_count+1; // wrapping 3 bit counter
+      // last bit in byte
+      if (bs_count == 7) begin
+         bs_next = bs_addr+1;
+         bs_mem[bs_addr] <= bs_tmp; // update current address in memory
+         bs_shift <= bs_mem[bs_next]; // load next address to shift register
+         bs_addr <= bs_next;  // update address
+      end
     end
   end
 
   always @(posedge TCK) begin
     if (UPDATE & SEL) begin
-      bs_state[31:0] <= bs_shift[31:0];
+//      bs_address <= bs_shift[2:0];
+//      bs_state[bs_shift[2:0]] <= bs_shift[39:8];
       has_update <= has_update ^ 1;
     end
 
     if (RESET) begin
-      bs_state   <= 'hffffffff;
+      // bs_addr <= 0;
       has_update <= 0;
       has_reset  <= has_reset ^ 1;
+      /*// dead beef
+      bs_mem[0] <= 'hde;
+      bs_mem[1] <= 'had;
+      bs_mem[2] <= 'hbe;
+      bs_mem[3] <= 'hef;
+      // 8bad food
+      bs_mem[4] <= 'h8b;
+      bs_mem[5] <= 'had;
+      bs_mem[6] <= 'hf0;
+      bs_mem[7] <= 'h0d;*/  
+      
     end
   end
 

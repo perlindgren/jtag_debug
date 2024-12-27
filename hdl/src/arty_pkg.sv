@@ -14,4 +14,9 @@ package arty_pkg;
   localparam integer unsigned SwWidth = 2;
   localparam type SwT = logic [SwWidth-1:0];
 
+  // typedef bit[0:0] enum { READ, WRITE } State;
+  localparam integer unsigned MemWidth = 3;
+  localparam type MemAddr = logic [MemWidth-1:0];
+  localparam type MemType = logic [7:0] [2**MemWidth-1:0];
+
 endpackage
