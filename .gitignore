@@ -5,3 +5,5 @@
 
 !/jtag_debug.tcl
 /jtag_debug
+*.log
+*.jou
