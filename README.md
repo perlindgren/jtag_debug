@@ -9,7 +9,7 @@ The first step is to implement a program loader for Hippo. This experiment shows
 ## Resources
 
 - [ug470](https://docs.amd.com/v/u/en-US/ug470_7Series_Config) 7 Series FGPAs Configuration
-- [xjax](https://www.xjtag.com/about-jtag/jtag-a-technical-overview/) Technical Guide to JTAG
+- [xjtag](https://www.xjtag.com/about-jtag/jtag-a-technical-overview/) Technical Guide to JTAG
 
 ## BSCANE2
 
