@@ -1,6 +1,10 @@
-# JTAG BSCANE2
+# JTAG DEBUG
 
 This crate demonstrates the use of the AMD/Xilinx BSCANE2 IP for implementing a custom TAP.
+
+The name JTAG DEBUG is currently misleading, but the end goal is to implement raw debugging functionality of the Hippomenes Real-Time RISC-V processor.
+
+The first step is to implement a program loader for Hippo. This experiment shows the feasibility to do that, by emulating a memory (just 8 bytes, but it is sufficient as a proof of concept).
 
 ## Resources
 

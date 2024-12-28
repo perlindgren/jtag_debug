@@ -120,4 +120,7 @@ module top (
 
 endmodule
 
-// openFPGALoader -b  arty jtag_debug/jtag_debug.runs/impl_1/top.bit
+// to program the FGPA
+// openFPGALoader -b  arty jtag_debug/jtag_debug.runs/impl_1/top.bit, or
+// cd scipts
+// openocd -f program.cfg
