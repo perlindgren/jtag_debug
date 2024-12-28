@@ -73,32 +73,35 @@ module top (
 
   // End of BSCANE2_inst instantiation
 
+  // clocked registers
   logic [7:0] bs_shift_r;
-  logic [2:0] bs_bit_count_r; // wrapping 3 bit counter
-  logic [7:0] bs_tmp;
-  
-  MemType       bs_mem = { 8'hde, 8'had, 8'hbe, 8'hef, 8'h8b, 8'had, 8'hf0, 8'h0f };
-  MemAddr       bs_addr_r = 0;
-  MemAddr       bs_addr_next;
+  logic [2:0] bs_bit_count_r; 
+  MemAddr     bs_addr_r;
+  MemType     bs_mem_r;
+ 
+  // temporaries
+  logic [7:0] bs_tmp; 
+  MemAddr     bs_addr_next;
   
   assign TDO = bs_shift_r[0];
   assign bs_tmp = {TDI, bs_shift_r[7:1]};
   assign bs_addr_next = bs_addr_r+1;
  
   always @(posedge DRCK) begin
-    if (CAPTURE & ~SHIFT) begin
+    if (CAPTURE) begin
       bs_bit_count_r <= 0;
-      bs_shift_r <= bs_mem[bs_addr_r];
+      bs_addr_r <= 0;
+      bs_shift_r <= bs_mem_r[0];
     end
 
     if (SHIFT) begin
-      bs_shift_r <= bs_tmp;  // shift data out
-      bs_bit_count_r <= bs_bit_count_r+1; // wrapping 3 bit counter
-      // last bit in byte
-      if (bs_bit_count_r == 7) begin
-         bs_mem[bs_addr_r] <= bs_tmp; // update current address in memory
-         bs_shift_r <= bs_mem[bs_addr_next]; // load next address to shift register
-         bs_addr_r <= bs_addr_next;  // update address
+      bs_shift_r <= bs_tmp;                    // shift data out
+      bs_bit_count_r <= bs_bit_count_r+1;      // wrapping 3 bit counter
+    
+      if (bs_bit_count_r == 7) begin           // at last bit
+         bs_mem_r[bs_addr_r] <= bs_tmp;        // update current address in memory
+         bs_shift_r <= bs_mem_r[bs_addr_next]; // load next address to shift register
+         bs_addr_r <= bs_addr_next;            // update address
       end
     end
   end
